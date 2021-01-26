@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import styled from 'styled-components'
+import { useRouter } from 'next/router'
 
 import BackGroundImg from '../src/components/Background'
 import Logo from '../src/components/Logo'
 import Box from '../src/components/Box'
 import GithubCorner from '../src/components/GithubCorner'
 import Footer from '../src/components/Footer'
+import Input from '../src/components/Input'
 
 import db from '../db.json'
 
@@ -20,6 +23,16 @@ const QuizContainer = styled.div`
 `
 
 const Home = () => {
+	const router = useRouter()
+	const [name, setName] = useState('')
+
+	const WriteAName = event => setName(event.target.value)
+
+	const FormSubmited = event => {
+		event.preventDefault()
+		return router.push(`/quiz/?name=${name}`)
+	}
+
 	return (
 		<BackGroundImg backgroundImage={db.bg}>
 			<QuizContainer>
@@ -30,6 +43,16 @@ const Home = () => {
 					</Box.Header>
 					<Box.Content>
 						<p>{db.description}</p>
+						<form onSubmit={e => FormSubmited(e)}>
+							<Input
+								value={name}
+								placeholder='Digite seu nome =]'
+								onChange={e => WriteAName(e)}
+							/>
+							<button type='submit' disabled={name ? false : true}>
+								Jogar {name}
+							</button>
+						</form>
 					</Box.Content>
 				</Box>
 
