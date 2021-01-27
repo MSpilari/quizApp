@@ -8,6 +8,7 @@ import Box from '../src/components/Box'
 import GithubCorner from '../src/components/GithubCorner'
 import Footer from '../src/components/Footer'
 import Input from '../src/components/Input'
+import Button from '../src/components/Button'
 
 import db from '../db.json'
 
@@ -49,9 +50,9 @@ const Home = () => {
 								placeholder='Digite seu nome =]'
 								onChange={e => WriteAName(e)}
 							/>
-							<button type='submit' disabled={name ? false : true}>
-								Jogar {name}
-							</button>
+							<Button type='submit' disabled={name ? false : true}>
+								{`Jogar como ${name}`}
+							</Button>
 						</form>
 					</Box.Content>
 				</Box>

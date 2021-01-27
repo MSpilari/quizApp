@@ -7,7 +7,11 @@ const InputStyled = styled.input`
 	padding: 8px;
 
 	border: 1px solid ${({ theme }) => theme.colors.primary};
+	color: ${({ theme }) => theme.colors.contrastText};
 	border-radius: 8px;
+	outline: none;
+
+	margin: 10px 0;
 `
 
 const Input = props => {
