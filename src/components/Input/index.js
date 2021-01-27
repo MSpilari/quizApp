@@ -8,7 +8,7 @@ const InputStyled = styled.input`
 
 	border: 1px solid ${({ theme }) => theme.colors.primary};
 	color: ${({ theme }) => theme.colors.contrastText};
-	border-radius: 8px;
+	border-radius: ${({ theme }) => theme.borderRadius};
 	outline: none;
 
 	margin: 10px 0;

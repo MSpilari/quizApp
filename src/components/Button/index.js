@@ -8,7 +8,7 @@ const Button = styled.button`
 	padding: 8px;
 	margin: 5px 0;
 	outline: none;
-	border-radius: 8px;
+	border-radius: ${({ theme }) => theme.borderRadius};
 	cursor: pointer;
 	font-weight: 700;
 	&:hover {
