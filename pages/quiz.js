@@ -7,6 +7,7 @@ import Box from '../src/components/Box'
 import Button from '../src/components/Button'
 import LoadingWidget from '../src/components/Loading'
 import ResultWidget from '../src/components/Result'
+import AlternativesForm from '../src/components/AlternativesForm'
 
 import getPlayerName from '../src/utils/getPlayerName'
 import isCorrect from '../src/utils/isCorrect'
@@ -19,6 +20,7 @@ const Quiz = () => {
 	const [playerName, setPlayerName] = useState(undefined)
 	const [selectedAlternative, setSelectedAlternative] = useState(undefined)
 	const [pageRendered, setPageRendered] = useState('Loading')
+	const [didSubmit, setdidSubmit] = useState(false)
 
 	const totalOfQuestions = db.questions.length
 	let currentIndex = index
@@ -29,8 +31,18 @@ const Quiz = () => {
 	const handleQuestion = (event, playerAnswer, correctAnswer) => {
 		event.preventDefault()
 		if (isCorrect(playerAnswer, correctAnswer)) setPoints(points + 1)
-		if (index < totalOfQuestions - 1) return setIndex(index + 1)
-		else return setPageRendered('Result')
+		if (index < totalOfQuestions - 1) {
+			setdidSubmit(!didSubmit)
+			return setTimeout(() => {
+				setIndex(index + 1)
+				setdidSubmit(false)
+			}, 2000)
+		} else {
+			setdidSubmit(!didSubmit)
+			return setTimeout(() => {
+				setPageRendered('Result')
+			}, 2000)
+		}
 	}
 
 	const quizWidget = () => {
@@ -53,16 +65,31 @@ const Quiz = () => {
 				<Box.Content>
 					<h1>{currentQuestion.title}</h1>
 					<h5>{currentQuestion.description}</h5>
-					<form
+					<AlternativesForm
 						onSubmit={e =>
 							handleQuestion(e, selectedAlternative, correctAnswer)
 						}
 					>
 						{currentQuestion.alternatives.map((answer, answerIndex) => {
 							const alternativeId = `alternative__${answerIndex}`
+							const alternativeStatus = isCorrect(
+								selectedAlternative,
+								correctAnswer
+							)
+								? 'SUCCESS'
+								: 'ERROR'
+							const isAlternativeSelected =
+								answerIndex === selectedAlternative ? 'true' : 'false'
 							return (
-								<Box.Topic key={answerIndex} as='label' htmlFor={alternativeId}>
+								<Box.Topic
+									key={answerIndex}
+									as='label'
+									htmlFor={alternativeId}
+									data-selected={isAlternativeSelected}
+									data-status={didSubmit && alternativeStatus}
+								>
 									<input
+										style={{ display: 'none' }}
 										name={questionId}
 										type='radio'
 										id={alternativeId}
@@ -73,7 +100,7 @@ const Quiz = () => {
 							)
 						})}
 						<Button type='submit'>Confirmar resposta</Button>
-					</form>
+					</AlternativesForm>
 				</Box.Content>
 			</Box>
 		)
