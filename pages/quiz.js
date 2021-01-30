@@ -33,10 +33,13 @@ const Quiz = () => {
 		if (isCorrect(playerAnswer, correctAnswer)) setPoints(points + 1)
 		if (index < totalOfQuestions - 1) {
 			setdidSubmit(!didSubmit)
+			setTimeout(() => {
+				setSelectedAlternative(undefined)
+			}, 2000)
 			return setTimeout(() => {
 				setIndex(index + 1)
 				setdidSubmit(false)
-			}, 2000)
+			}, 1000)
 		} else {
 			setdidSubmit(!didSubmit)
 			return setTimeout(() => {
@@ -99,7 +102,12 @@ const Quiz = () => {
 								</Box.Topic>
 							)
 						})}
-						<Button type='submit'>Confirmar resposta</Button>
+						<Button
+							disabled={selectedAlternative === undefined ? true : false}
+							type='submit'
+						>
+							Confirmar resposta
+						</Button>
 					</AlternativesForm>
 				</Box.Content>
 			</Box>
