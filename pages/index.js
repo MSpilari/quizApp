@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
 
 import BackGroundImg from '../src/components/Background'
 import Logo from '../src/components/Logo'
@@ -27,7 +28,16 @@ const Home = () => {
 		<BackGroundImg backgroundImage={db.bg}>
 			<QuizContainer>
 				<Logo />
-				<Box>
+				<Box
+					as={motion.div}
+					transition={{ delay: '0', duration: '0.5' }}
+					variants={{
+						show: { opacity: 1, y: '0' },
+						hidden: { opacity: 0, y: '100%' }
+					}}
+					initial='hidden'
+					animate='show'
+				>
 					<Box.Header>
 						<h1>{db.title}</h1>
 					</Box.Header>
